@@ -2,5 +2,5 @@ services:
     welp_ical.factory:
         class: Welp\IcalBundle\Factory\Factory
         calls:
-            - [ addDefaultConfig, ['unique_id', '%welp_ical.default_unique_id%']]
             - [ setTimezone, ['%welp_ical.default_timezone%']]
+            - [ setProdid, ['%welp_ical.default_prodid%']]

@@ -23,7 +23,7 @@ class WelpIcalExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $container->setParameter('welp_ical.default_timezone', $config['default_timezone']);
-        $container->setParameter('welp_ical.default_unique_id', $config['default_unique_id']);
+        $container->setParameter('welp_ical.default_prodid', $config['default_prodid']);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');

@@ -5,6 +5,10 @@ namespace Welp\IcalBundle\Response;
 use Welp\IcalBundle\Component\Calendar;
 use Symfony\Component\HttpFoundation\Response;
 
+use Jsvrcek\ICS\Utility\Formatter;
+use Jsvrcek\ICS\CalendarStream;
+use Jsvrcek\ICS\CalendarExport;
+
 /**
  * Represents a HTTP response for a calendar file download
  *
@@ -31,7 +35,9 @@ class CalendarResponse extends Response
     public function __construct(Calendar $calendar, $status = 200, $headers = array())
     {
         $this->calendar = $calendar;
-        $content = utf8_encode($calendar->createCalendar());
+
+        $content = $this->calendar->export();
+
         $headers = array_merge($this->getDefaultHeaders(), $headers);
         parent::__construct($content, $status, $headers);
     }
@@ -49,7 +55,7 @@ class CalendarResponse extends Response
         $mimeType = $this->calendar->getContentType();
         $headers['Content-Type'] = sprintf('%s; charset=utf-8', $mimeType);
 
-        $filename = $this->calendar->getConfig('filename');
+        $filename = $this->calendar->getFilename();
         $headers['Content-Disposition'] = sprintf('attachment; filename="%s', $filename);
 
         return $headers;

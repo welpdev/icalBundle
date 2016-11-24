@@ -2,10 +2,7 @@
 
 namespace Welp\IcalBundle\Component;
 
-use Jsvrcek\ICS\Model\Calendar;
-use Jsvrcek\ICS\Model\CalendarEvent;
-use Jsvrcek\ICS\Model\Relationship\Attendee;
-use Jsvrcek\ICS\Model\Relationship\Organizer;
+use Jsvrcek\ICS\Model\Calendar as vCalendar;
 
 use Jsvrcek\ICS\Utility\Formatter;
 use Jsvrcek\ICS\CalendarStream;
@@ -13,102 +10,63 @@ use Jsvrcek\ICS\CalendarExport;
 
 /**
  * Calendar component
- * @TODO
  *
  * @package Welp\IcalBundle\Component
  * @author  Titouan BENOIT <titouan@welp.today>
  */
-class Calendar extends \vcalendar
+class Calendar extends vCalendar
 {
+    /**
+     * String $filename
+     */
+    private $filename = 'calendar.ics';
 
     /**
-     * Default date format for converting DateTime objects
+     * Calendar contentType
+     * @return String calendar contentType
      */
-    const DATE_FORMAT = 'Y/m/d H:i:s';
-
-    /**
-     * Event status types
-     */
-    const EVENT_STATUS_TENTATIVE = 'TENTATIVE';
-    const EVENT_STATUS_CONFIRMED = 'CONFIRMED';
-    const EVENT_STATUS_CANCELLED = 'CANCELLED';
-
-    /**
-     * @var string
-     */
-    protected $timezone;
-
-
-    /**
-     * Get content type
-     *
-     * @return string
-     */
-    public function getContentType()
-    {
-        if ($this->format == 'xcal') {
-            return 'application/calendar+xml';
-        } else {
-            return 'text/calendar';
-        }
+    public function getContentType(){
+        return 'text/calendar';
     }
 
-
     /**
-     * Create new event for calendar
-     *
-     * @return \vevent
+     * Export
+     * @param Boolean $doImmediateOutput = false
+     * @return String .ics formatted text
      */
-    public function newEvent()
-    {
-        return $this->newComponent('VEVENT');
+    public function export($doImmediateOutput = false){
+        //setup exporter
+        $calendarExport = new CalendarExport(new CalendarStream, new Formatter());
+        $calendarExport->addCalendar($this);
+
+        //set exporter to send items directly to output instead of storing in memory
+        $calendarExport->getStreamObject()->setDoImmediateOutput($doImmediateOutput);
+
+        //output .ics formatted text
+        return $calendarExport->getStream();
     }
 
-
     /**
-     * Get event from calendar
+     * Set filename
      *
-     * @param int $index
-     *
-     * @return \vevent|false
+     * @param String $filename
+     * @return Calendar
      */
-    public function getEvent($index = 1)
+    public function setFilename($filename)
     {
-        return $this->getComponent('VEVENT', $index);
+        $this->filename = $filename;
+
+        return $this;
     }
 
-
     /**
-     * Set timezone, when Non-UTC
+     * Get filename
      *
-     * @see http://kigkonsult.se/iCalcreator/docs/using.html#createTimezone
-     *
-     * @param string $timezone
+     * @return String
      */
-    public function setTimezone($timezone)
+    public function getFilename()
     {
-        $this->timezone = $timezone;
-        $this->setConfig('TZID', $timezone);
-        $this->setProperty('X-WR-TIMEZONE', $timezone);
+        return $this->filename;
     }
 
-
-    /**
-     * Create calendar
-     * Adds timezone component, when not already done
-     *
-     * @see http://kigkonsult.se/iCalcreator/docs/using.html#createTimezone
-     *
-     * @return string
-     */
-    public function createCalendar()
-    {
-        // add timezone component
-        if ($this->timezone && $this->getComponent('VTIMEZONE') === false) {
-            $xprops = array('X-LIC-LOCATION' => $this->timezone);
-            \iCalUtilityFunctions::createTimezone($this, $this->timezone, $xprops);
-        }
-
-        return parent::createCalendar();
-    }
 }

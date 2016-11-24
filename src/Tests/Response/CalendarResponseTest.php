@@ -17,26 +17,19 @@ class CalendarResponseTest extends CalendarTestCase
     /**
      * Testing calendar response
      *
-     * @param Calendar $calendar Calendar
-     * @param array    $headers  Additional response headers
-     *
-     * @dataProvider getCalendarTestData
      */
-    public function testCalendarResponse(Calendar $calendar, $headers = array())
+    public function testCalendarResponse()
     {
-        $response = new CalendarResponse($calendar, 200, $headers);
+        $calendar = new Calendar();
+        $response = new CalendarResponse($calendar, 200);
 
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\Response', $response);
         $this->assertInstanceOf('Welp\IcalBundle\Response\CalendarResponse', $response);
         $this->assertEquals(200, $response->getStatusCode());
 
-        $this->assertEquals($calendar->createCalendar(), $response->getContent());
+        $this->assertEquals($calendar->export(), $response->getContent());
 
-        foreach ($headers as $key => $value) {
-            $this->assertEquals($value, $response->headers->get($key));
-        }
-
-        $this->assertContains($calendar->getContentType(), $response->headers->get('Content-Type'));
-        $this->assertContains($calendar->getConfig('filename'), $response->headers->get('Content-Disposition'));
+        $this->assertContains($calendar->getContentType()."; charset=utf-8", $response->headers->get('Content-Type'));
+        $this->assertContains($calendar->getFilename(), $response->headers->get('Content-Disposition'));
     }
 }

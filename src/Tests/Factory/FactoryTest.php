@@ -42,56 +42,12 @@ class FactoryTest extends CalendarTestCase
     /**
      * Test creating new calendar
      *
-     * @param array $config Calendar configs
-     *
-     * @dataProvider getCalendarConfigTestData
      */
-    public function testCreate(array $config)
+    public function testCreateCalendar()
     {
-        $calendar = $this->factory->create($config);
-        $this->assertCalendarConfigs($config, $calendar);
+        $calendar = $this->factory->createCalendar();
+        $this->assertCalendar($calendar);
     }
 
 
-    /**
-     * Test setting timezone for calendar via factory
-     *
-     * @param array $config Calendar configs
-     *
-     * @dataProvider getCalendarConfigTestData
-     */
-    public function testSetTimezone(array $config)
-    {
-        $timezone = 'Europe/Berlin';
-        $this->factory->setTimezone($timezone);
-
-        $calendar = $this->factory->create($config);
-        $this->assertCalendarConfigs($config, $calendar);
-
-        $reflection = new \ReflectionObject($calendar);
-        $attribute = $reflection->getProperty('timezone');
-        $attribute->setAccessible(true);
-        $this->assertEquals($timezone, $attribute->getValue($calendar));
-    }
-
-
-    /**
-     * Test add default configs and generating calendars with it
-     */
-    public function testAddDefaultConfig()
-    {
-        $reflection = new \ReflectionObject($this->factory);
-        $attribute = $reflection->getProperty('defaultConfig');
-        $attribute->setAccessible(true);
-
-        $config = array('unique_id' => 'MyUniqueCalendarId', 'format' => 'xCal');
-        foreach ($config as $name => $value) {
-            $this->factory->addDefaultConfig($name, $value);
-        }
-
-        $this->assertEquals($config, $attribute->getValue($this->factory));
-
-        $calendar = $this->factory->create();
-        $this->assertCalendarConfigs($config, $calendar);
-    }
 }

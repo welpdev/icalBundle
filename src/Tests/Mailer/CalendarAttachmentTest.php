@@ -17,19 +17,17 @@ class CalendarAttachmentTest extends CalendarTestCase
     /**
      * Testing calendar attachment
      *
-     * @param Calendar $calendar
-     *
-     * @dataProvider getCalendarTestData
      */
-    public function testCalendarAttachment(Calendar $calendar)
+    public function testCalendarAttachment()
     {
+        $calendar = new Calendar();
         $attachment = new CalendarAttachment($calendar);
 
         $this->assertInstanceOf('Swift_Attachment', $attachment);
         $this->assertInstanceOf('Welp\IcalBundle\Mailer\CalendarAttachment', $attachment);
 
-        $this->assertEquals($calendar->createCalendar(), $attachment->getBody());
-        $this->assertEquals($calendar->getConfig('filename'), $attachment->getFilename());
-        $this->assertEquals($calendar->getContentType(), $attachment->getContentType());
+        $this->assertEquals($calendar->export(), $attachment->getBody());
+        $this->assertEquals($calendar->getFilename(), $attachment->getFilename());
+        $this->assertEquals($calendar->getContentType()."; charset=utf-8", $attachment->getContentType());
     }
 }
