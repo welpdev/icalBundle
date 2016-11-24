@@ -139,4 +139,18 @@ class FactoryTest extends CalendarTestCase
         $this->assertInstanceOf('Jsvrcek\ICS\Model\Recurrence\RecurrenceRule', $recurrenceRule);
     }
 
+    /**
+     * Test timezone
+     *
+     */
+    public function testTimezone()
+    {
+        $this->factory->setTimezone('Europe/Paris');
+        $calendar = $this->factory->createCalendar();
+        $this->assertCalendar($calendar);
+        $this->assertInstanceOf('\DateTimeZone', $calendar->getTimezone());
+        $this->assertEquals('Europe/Paris', $calendar->getTimezone()->getName());
+
+    }
+
 }

@@ -32,7 +32,7 @@ In your `config.yml`:
 
 ```yaml
 welp_ical:
-    default_timezone: "Europe\\Paris"
+    default_timezone: "Europe/Paris"
     default_prodid: "-//WelpIcalBundle//Calendar App//FR"
 ```
 
@@ -61,7 +61,7 @@ welp_ical:
             ->setUid('event-uid');
 
         //add an Attendee
-        $attendee = $icalFactory->createAttendee(new Formatter());
+        $attendee = $icalFactory->createAttendee();
         $attendee->setValue('moe@example.com')
             ->setName('Moe Smith');
         $eventOne->addAttendee($attendee);

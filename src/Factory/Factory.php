@@ -173,7 +173,7 @@ class Factory
      */
     public function setTimezone($timezone)
     {
-        $this->timezone = \DateTimeZone($timezone);
+        $this->timezone = new \DateTimeZone($timezone);
     }
 
     /**
