@@ -26,7 +26,7 @@ $bundles = [
 ];
 ```
 
-## Minimal Configuration
+## Configuration
 
 In your `config.yml`:
 
@@ -34,4 +34,61 @@ In your `config.yml`:
 welp_ical:
     default_timezone: "Europe\\Paris"
     default_prodid: "-//WelpIcalBundle//Calendar App//FR"
+```
+
+## Usage
+
+``` php
+<?php
+
+    ...
+
+    /**
+     * Generate calendar event ICAL for welpAction
+     * @Config\Route("/ical", name="app_ical")
+     */
+    public function icalAction()
+    {
+        $icalFactory = $this->get('welp_ical.factory');
+
+        //Create a calendar
+        $calendar = $icalFactory->createCalendar();
+
+        //Create an event
+        $eventOne = $icalFactory->createCalendarEvent();
+        $eventOne->setStart(new \DateTime())
+            ->setSummary('Family reunion')
+            ->setUid('event-uid');
+
+        //add an Attendee
+        $attendee = $icalFactory->createAttendee(new Formatter());
+        $attendee->setValue('moe@example.com')
+            ->setName('Moe Smith');
+        $eventOne->addAttendee($attendee);
+
+        //set the Organizer
+        $organizer = $icalFactory->createOrganizer();
+        $organizer->setValue('titouan@welp.fr')
+            ->setName('Titouan BENOIT')
+            ->setLanguage('fr');
+        $eventOne->setOrganizer($organizer);
+
+        //new event
+        $eventTwo = $icalFactory->createCalendarEvent();
+        $eventTwo->setStart(new \DateTime())
+            ->setSummary('Dentist Appointment')
+            ->setUid('event-uid');
+
+        $calendar
+            ->addEvent($eventOne)
+            ->addEvent($eventTwo);
+
+        $headers = array();
+        $calendarResponse = new Welp\IcalBundle\Response\CalendarResponse($calendar, 200, $headers);
+
+        return $calendarResponse;
+
+    }
+
+
 ```
