@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/welpdev/icalBundle.svg?branch=master)](https://travis-ci.org/welpdev/icalBundle)
 [![Packagist](https://img.shields.io/packagist/v/welp/ical-bundle.svg)](https://packagist.org/packages/welp/ical-bundle)
 [![Packagist](https://img.shields.io/packagist/dt/welp/ical-bundle.svg)](https://packagist.org/packages/welp/ical-bundle)
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/welpdev/ical-bundle/master/LICENSE.md)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/welpdev/icalBundle/blob/master/LICENSE)
 
 Symfony Bundle to manage .ics iCal file (creating and eventually reading)
 

@@ -107,6 +107,66 @@ class Factory
     }
 
     /**
+     * Create new Attendee
+     *
+     * @return Attendee
+     */
+    public function createAttendee()
+    {
+        $attendee = new Attendee(new Formatter());
+
+        return $attendee;
+    }
+
+    /**
+     * Create new Organizer
+     *
+     * @return Organizer
+     */
+    public function createOrganizer()
+    {
+        $organizer = new Organizer(new Formatter());
+
+        return $organizer;
+    }
+
+    /**
+     * Create new Geo
+     *
+     * @return Geo
+     */
+    public function createGeo()
+    {
+        $geo = new Geo();
+
+        return $geo;
+    }
+
+    /**
+     * Create new Location
+     *
+     * @return Location
+     */
+    public function createLocation()
+    {
+        $location = new Location();
+
+        return $location;
+    }
+
+    /**
+     * Create new RecurrenceRule
+     *
+     * @return RecurrenceRule
+     */
+    public function createRecurrenceRule()
+    {
+        $recurrenceRule = new RecurrenceRule(new Formatter());
+
+        return $recurrenceRule;
+    }
+
+    /**
      * Set default timezone for calendars
      *
      * @param string $timezone
