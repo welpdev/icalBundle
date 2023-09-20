@@ -16,25 +16,15 @@ use Jsvrcek\ICS\CalendarExport;
  */
 class Calendar extends vCalendar
 {
-    /**
-     * String $filename
-     */
-    private $filename = 'calendar.ics';
+    private string $filename = 'calendar.ics';
 
-    /**
-     * Calendar contentType
-     * @return String calendar contentType
-     */
-    public function getContentType(){
+    public function getContentType(): string
+    {
         return 'text/calendar';
     }
 
-    /**
-     * Export
-     * @param Boolean $doImmediateOutput = false
-     * @return String .ics formatted text
-     */
-    public function export($doImmediateOutput = false){
+    public function export(bool $doImmediateOutput = false): string
+    {
         //setup exporter
         $calendarExport = new CalendarExport(new CalendarStream, new Formatter());
         $calendarExport->addCalendar($this);
@@ -46,27 +36,15 @@ class Calendar extends vCalendar
         return $calendarExport->getStream();
     }
 
-    /**
-     * Set filename
-     *
-     * @param String $filename
-     * @return Calendar
-     */
-    public function setFilename($filename)
+    public function setFilename(string $filename): Calendar
     {
         $this->filename = $filename;
 
         return $this;
     }
 
-    /**
-     * Get filename
-     *
-     * @return String
-     */
-    public function getFilename()
+    public function getFilename(): string
     {
         return $this->filename;
     }
-
 }

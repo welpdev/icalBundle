@@ -23,7 +23,7 @@ class CalendarAttachmentTest extends CalendarTestCase
         $calendar = new Calendar();
         $attachment = new CalendarAttachment($calendar);
 
-        $this->assertInstanceOf('Swift_Attachment', $attachment);
+        $this->assertInstanceOf('Symfony\Component\Mime\Part\DataPart', $attachment);
         $this->assertInstanceOf('Welp\IcalBundle\Mailer\CalendarAttachment', $attachment);
 
         $this->assertEquals($calendar->export(), $attachment->getBody());

@@ -2,11 +2,8 @@
 
 namespace Welp\IcalBundle\Mailer;
 
+use Symfony\Component\Mime\Part\DataPart;
 use Welp\IcalBundle\Component\Calendar;
-
-use Jsvrcek\ICS\Utility\Formatter;
-use Jsvrcek\ICS\CalendarStream;
-use Jsvrcek\ICS\CalendarExport;
 
 /**
  * Calendar attachment for Swift mailer messages
@@ -14,13 +11,8 @@ use Jsvrcek\ICS\CalendarExport;
  * @package Welp\IcalBundle\Mailer
  * @author  Titouan BENOIT <titouan@welp.today>
  */
-class CalendarAttachment extends \Swift_Attachment
+class CalendarAttachment extends DataPart
 {
-    /**
-     * Calendar attachment constructor
-     *
-     * @param Calendar $calendar
-     */
     public function __construct(Calendar $calendar)
     {
         $data = $calendar->export();

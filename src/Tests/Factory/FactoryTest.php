@@ -24,7 +24,7 @@ class FactoryTest extends CalendarTestCase
     /**
      * Set up tests
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->factory = new Factory();
     }
