@@ -14,10 +14,7 @@ use Symfony\Component\DependencyInjection\Loader;
  */
 class WelpIcalExtension extends Extension
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
@@ -32,10 +29,8 @@ class WelpIcalExtension extends Extension
 
     /**
      * Get alias
-     *
-     * @return string
      */
-    public function getAlias()
+    public function getAlias(): string
     {
         return 'welp_ical';
     }

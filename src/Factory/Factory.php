@@ -3,23 +3,17 @@
 namespace Welp\IcalBundle\Factory;
 
 use Welp\IcalBundle\Component\Calendar;
-
 use Jsvrcek\ICS\Model\CalendarEvent;
 use Jsvrcek\ICS\Model\CalendarAlarm;
 use Jsvrcek\ICS\Model\CalendarFreeBusy;
 use Jsvrcek\ICS\Model\CalendarTodo;
-
 use Jsvrcek\ICS\Model\Relationship\Attendee;
 use Jsvrcek\ICS\Model\Relationship\Organizer;
-
 use Jsvrcek\ICS\Model\Description\Geo;
 use Jsvrcek\ICS\Model\Description\Location;
-
 use Jsvrcek\ICS\Model\Recurrence\RecurrenceRule;
-
 use Jsvrcek\ICS\Utility\Formatter;
-use Jsvrcek\ICS\CalendarStream;
-use Jsvrcek\ICS\CalendarExport;
+
 /**
  * Calendar Factory
  *
@@ -28,30 +22,22 @@ use Jsvrcek\ICS\CalendarExport;
  */
 class Factory
 {
-    /**
-     * @var string
-     */
-    protected $timezone;
+    protected ?\DateTimeZone $timezone = null;
 
-    /**
-     * @var string
-     */
-    protected $prodid;
+    protected ?string $prodid = null;
 
     /**
      * Create new calendar
-     *
-     * @return Calendar
      */
-    public function createCalendar()
+    public function createCalendar(): Calendar
     {
         $calendar = new Calendar();
 
-        if (!is_null($this->timezone)) {
+        if ($this->timezone !== null) {
             $calendar->setTimezone($this->timezone);
         }
 
-        if (!is_null($this->prodid)) {
+        if ($this->prodid !== null) {
             $calendar->setProdId($this->prodid);
         }
 
@@ -60,128 +46,90 @@ class Factory
 
     /**
      * Create new CalendarEvent
-     *
-     * @return CalendarEvent
      */
-    public function createCalendarEvent()
+    public function createCalendarEvent(): CalendarEvent
     {
-        $calendarEvent = new CalendarEvent();
-
-        return $calendarEvent;
+        return new CalendarEvent();
     }
 
     /**
      * Create new CalendarAlarm
-     *
-     * @return CalendarAlarm
      */
-    public function createCalendarAlarm()
+    public function createCalendarAlarm(): CalendarAlarm
     {
-        $calendarAlarm = new CalendarAlarm();
-
-        return $calendarAlarm;
+        return new CalendarAlarm();
     }
 
     /**
      * Create new CalendarFreeBusy
-     *
-     * @return CalendarFreeBusy
      */
-    public function createCalendarFreeBusy()
+    public function createCalendarFreeBusy(): CalendarFreeBusy
     {
-        $calendarFreeBusy = new CalendarFreeBusy();
-
-        return $calendarFreeBusy;
+        return new CalendarFreeBusy();
     }
 
     /**
      * Create new CalendarTodo
-     *
-     * @return CalendarTodo
      */
-    public function createCalendarTodo()
+    public function createCalendarTodo(): CalendarTodo
     {
-        $calendarTodo = new CalendarTodo();
-
-        return $calendarTodo;
+        return new CalendarTodo();
     }
 
     /**
      * Create new Attendee
-     *
-     * @return Attendee
      */
-    public function createAttendee()
+    public function createAttendee(): Attendee
     {
-        $attendee = new Attendee(new Formatter());
-
-        return $attendee;
+        return new Attendee(new Formatter());
     }
 
     /**
      * Create new Organizer
-     *
-     * @return Organizer
      */
-    public function createOrganizer()
+    public function createOrganizer(): Organizer
     {
-        $organizer = new Organizer(new Formatter());
-
-        return $organizer;
+        return new Organizer(new Formatter());
     }
 
     /**
      * Create new Geo
-     *
-     * @return Geo
      */
-    public function createGeo()
+    public function createGeo(): Geo
     {
-        $geo = new Geo();
-
-        return $geo;
+        return new Geo();
     }
 
     /**
      * Create new Location
-     *
-     * @return Location
      */
-    public function createLocation()
+    public function createLocation(): Location
     {
-        $location = new Location();
-
-        return $location;
+        return new Location();
     }
 
     /**
      * Create new RecurrenceRule
-     *
-     * @return RecurrenceRule
      */
-    public function createRecurrenceRule()
+    public function createRecurrenceRule(): RecurrenceRule
     {
-        $recurrenceRule = new RecurrenceRule(new Formatter());
-
-        return $recurrenceRule;
+        return new RecurrenceRule(new Formatter());
     }
 
     /**
      * Set default timezone for calendars
-     *
-     * @param string $timezone
      */
-    public function setTimezone($timezone)
+    public function setTimezone(?string $timezone)
     {
-        $this->timezone = new \DateTimeZone($timezone);
+        if ($timezone !== null) {
+            $this->timezone = new \DateTimeZone($timezone);
+        }
     }
 
     /**
      * Set default prodid for calendars
-     *
-     * @param string $prodid
      */
-    public function setProdid($prodid)
+    public function setProdid(?string $prodid)
     {
         $this->prodid = $prodid;
     }

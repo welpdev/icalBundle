@@ -13,7 +13,7 @@ class WelpIcalBundle extends Bundle
      *
      * @return ExtensionInterface
      */
-    public function getContainerExtension()
+    public function getContainerExtension(): ?ExtensionInterface
     {
         if (!$this->extension instanceof ExtensionInterface) {
             $this->extension = new WelpIcalExtension();

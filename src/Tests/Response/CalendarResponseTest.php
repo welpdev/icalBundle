@@ -29,7 +29,7 @@ class CalendarResponseTest extends CalendarTestCase
 
         $this->assertEquals($calendar->export(), $response->getContent());
 
-        $this->assertContains($calendar->getContentType()."; charset=utf-8", $response->headers->get('Content-Type'));
-        $this->assertContains($calendar->getFilename(), $response->headers->get('Content-Disposition'));
+        $this->assertStringContainsString($calendar->getContentType()."; charset=utf-8", $response->headers->get('Content-Type'));
+        $this->assertStringContainsString($calendar->getFilename(), $response->headers->get('Content-Disposition'));
     }
 }
